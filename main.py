@@ -174,3 +174,12 @@ st.write(c.execute("""
     inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%awful%' or '%bad%' 
     or '%no%' or '%horrible%' or '%unpleasant%' or '%inferior%' or '%unsatisfactory%' or '%nasty%';
 """).fetchall())
+st.write("--------------------------------------------------------------------------------------------")
+"""Выведем рестораны с мишленовской звездой/другой наградой, на которых есть положительный отзыв(сделали это с помощью регулярных выражений!) - выведем первые 5"""
+st.write(c.execute("""
+    SELECT rest.Name,
+     review.Reviews FROM review
+    inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%good%' or '%wonderful%' 
+    or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
+    limit 5;
+""").fetchall())
