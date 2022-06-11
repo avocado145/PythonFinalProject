@@ -142,62 +142,64 @@ if show2:
     st.write("--------------------------------------------------------------------------------------------")
     """По нашей теме здесь как раз есть статьи The World’s 50 Best Restaurants, Обладатели «Звезды Мишлен» и 
     Рестораны из рейтинга The World’s 50 Best Restaurants"""
+st.title("Использование SQL + регулярные выражения")
+show3 = st.sidebar.checkbox("Показать Часть с использованием SQL")
 
-st.title("Использование SQL")
-st.write("В этой части возьмем совершенно другую выборку, которая предоставляет отзывы о ресторанах с всего мира. Попробуем найти среди данных отзывов - отзывы на Мишленовские рестораны и отранжировать их - в этой части могут возникнуть проблемы с sql, к сожалению(")
+if show3:
+    st.write("В этой части возьмем совершенно другую выборку, которая предоставляет отзывы о ресторанах с всего мира. Попробуем найти среди данных отзывов - отзывы на Мишленовские рестораны и отранжировать их - в этой части могут возникнуть проблемы с sql, к сожалению(")
 
-data_reviews = pd.read_csv("TA_restaurants_curated.csv")
-conn = sqlite3.connect("review")
-c = conn.cursor()
-c.execute("""
-    DROP TABLE IF EXISTS review;
-""")
-data_reviews.to_sql("review", conn)
-"""Вывели какой-то отзыв"""
-st.write(c.execute("""
-    SELECT * FROM review
-    limit 1;
-""").fetchall())
-"""Теперь возьмем нашу изначальную базу данных с Мишленовскими ресторанами и приведем ее в sql-формат"""
+    data_reviews = pd.read_csv("TA_restaurants_curated.csv")
+    conn = sqlite3.connect("review")
+    c = conn.cursor()
+    c.execute("""
+        DROP TABLE IF EXISTS review;
+    """)
+    data_reviews.to_sql("review", conn)
+    """Вывели какой-то отзыв"""
+    st.write(c.execute("""
+        SELECT * FROM review
+        limit 1;
+    """).fetchall())
+    """Теперь возьмем нашу изначальную базу данных с Мишленовскими ресторанами и приведем ее в sql-формат"""
 
-conn1 = sqlite3.connect("rest")
-c1 = conn.cursor()
-c1.execute("""
-    DROP TABLE IF EXISTS rest;
-""")
-df.to_sql("rest", conn)
-"""Вывели какой-то ресторан из старой выборки"""
-st.write(c.execute("""
-    SELECT * FROM rest
-    limit 1;
-""").fetchall())
-st.write("--------------------------------------------------------------------------------------------")
-"""Выведем рестораны с мишленовской звездой/другой наградой, на которых есть отрицательный отзыв(сделали это с помощью регулярных выражений!)"""
-st.write(c.execute("""
-    SELECT rest.Name,
-     review.Reviews FROM review
-    inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%awful%' or '%bad%' 
-    or '%no%' or '%horrible%' or '%unpleasant%' or '%inferior%' or '%unsatisfactory%' or '%nasty%';
-""").fetchall())
-st.write("--------------------------------------------------------------------------------------------")
-"""Выведем рестораны с мишленовской звездой/другой наградой, на которых есть положительный отзыв(сделали это с помощью регулярных выражений!) - выведем первые 5, так как их довольно много, но в следующем запросе
-выведем количество положительных отзывов!"""
-st.write(c.execute("""
-    SELECT rest.Name,
-     review.Reviews FROM review
-    inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%good%' or '%wonderful%' 
-    or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
-    limit 5;
-""").fetchall())
-st.write("--------------------------------------------------------------------------------------------")
-st.write("Общее количество положительных отзывов")
-st.write(c.execute("""
-    SELECT COUNT(rest.Name),
-     review.Reviews FROM review
-    inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%good%' or '%wonderful%' 
-    or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
-""").fetchall())
-st.write("Общее количество положительных отзывов - 259, что уже сильно больше, чем 2 отрицательных отзыва. Из этого можем сделать вывод, что все же рестораны из нашей выборки не зря получили такие ценные награды")
+    conn1 = sqlite3.connect("rest")
+    c1 = conn.cursor()
+    c1.execute("""
+        DROP TABLE IF EXISTS rest;
+    """)
+    df.to_sql("rest", conn)
+    """Вывели какой-то ресторан из старой выборки"""
+    st.write(c.execute("""
+        SELECT * FROM rest
+        limit 1;
+    """).fetchall())
+    st.write("--------------------------------------------------------------------------------------------")
+    """Выведем рестораны с мишленовской звездой/другой наградой, на которых есть отрицательный отзыв(сделали это с помощью регулярных выражений!)"""
+    st.write(c.execute("""
+        SELECT rest.Name,
+        review.Reviews FROM review
+        inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%awful%' or '%bad%' 
+        or '%no%' or '%horrible%' or '%unpleasant%' or '%inferior%' or '%unsatisfactory%' or '%nasty%';
+    """).fetchall())
+    st.write("--------------------------------------------------------------------------------------------")
+    """Выведем рестораны с мишленовской звездой/другой наградой, на которых есть положительный отзыв(сделали это с помощью регулярных выражений!) - выведем первые 5, так как их довольно много, но в следующем запросе
+    выведем количество положительных отзывов!"""
+    st.write(c.execute("""
+        SELECT rest.Name,
+        review.Reviews FROM review
+        inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%good%' or '%wonderful%' 
+        or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
+        limit 5;
+    """).fetchall())
+    st.write("--------------------------------------------------------------------------------------------")
+    st.write("Общее количество положительных отзывов")
+    st.write(c.execute("""
+        SELECT COUNT(rest.Name),
+        review.Reviews FROM review
+        inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%good%' or '%wonderful%' 
+        or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
+    """).fetchall())
+    st.write("Общее количество положительных отзывов - 259, что уже сильно больше, чем 2 отрицательных отзыва. Из этого можем сделать вывод, что все же рестораны из нашей выборки не зря получили такие ценные награды")
 
 
 st.title("Анализ данных с помощью Pandas, Numpy")
