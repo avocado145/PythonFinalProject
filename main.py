@@ -141,7 +141,7 @@ st.write("----------------------------------------------------------------------
 st.title("Использование SQL")
 st.write("В этой части возьмем совершенно другую выборку, которая предоставляет отзывы о ресторанах с всего мира. Попробуем найти среди данных отзывов - отзывы на Мишленовские рестораны и отранжировать их - в этой части могут возникнуть проблемы с sql, к сожалению(")
 
-data_reviews = pd.read_csv("/Users/aiza/Downloads/TA_restaurants_curated.csv")
+data_reviews = pd.read_csv("TA_restaurants_curated.csv")
 conn = sqlite3.connect("review")
 c = conn.cursor()
 c.execute("""
