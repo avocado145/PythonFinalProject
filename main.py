@@ -193,3 +193,11 @@ st.write(c.execute("""
     or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
 """).fetchall())
 st.write("Общее количество положительных отзывов - 259, что уже сильно больше, чем 2 отрицательных отзыва. Из этого можем сделать вывод, что все же рестораны из нашей выборки не зря получили такие ценные награды")
+
+
+st.write("##Анализ данных с помощью Pandas, Numpy")
+
+show5 = st.sidebar.checkbox("Показать Часть с Pandas, Numpy")
+
+if show5:
+    avg_1 = df['MinPrice'].describe()
