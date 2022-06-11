@@ -183,3 +183,9 @@ st.write(c.execute("""
     or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
     limit 5;
 """).fetchall())
+st.write(c.execute("""
+    SELECT COUNT(rest.Name),
+     review.Reviews FROM review
+    inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%good%' or '%wonderful%' 
+    or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
+""").fetchall())
