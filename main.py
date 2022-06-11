@@ -192,3 +192,4 @@ st.write(c.execute("""
     inner join rest on rest.Name = review.Name where review.Name is not NULL and review.Reviews LIKE '%good%' or '%wonderful%' 
     or '%great%' or '%super%' or '%tasty%' or '%best%' or '%worth%' or '%sweet%'
 """).fetchall())
+st.write("Общее количество положительных отзывов - 259, что уже сильно больше, чем 2 отрицательных отзыва. Из этого можем сделать вывод, что все же рестораны из нашей выборки не зря получили такие ценные награды")
