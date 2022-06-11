@@ -207,5 +207,5 @@ st.title("Анализ данных с помощью Pandas, Numpy")
 show5 = st.sidebar.checkbox("Показать Часть с Pandas, Numpy")
 
 if show5:
-    avg_1 = df['MinPrice'].describe()
+    avg_1 = df['MinPrice'].mean()
     st.write(avg_1)
