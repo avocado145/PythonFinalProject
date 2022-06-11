@@ -208,3 +208,4 @@ show5 = st.sidebar.checkbox("Показать Часть с Pandas, Numpy")
 
 if show5:
     avg_1 = df['MinPrice'].describe()
+    st.write(avg_1)
