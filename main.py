@@ -20,7 +20,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.markdown('<p class="big-font">Мишленовский гид по ресторанам мира</p>', unsafe_allow_html=True)
 
-df = pd.read_csv('/Users/aiza/Downloads/michelin_my_maps.csv')
+df = pd.read_csv('michelin_my_maps.csv')
 
 df['Award'] = df['Award'].str[:1]
 # st.write(df.head())
