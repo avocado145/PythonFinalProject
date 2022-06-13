@@ -63,7 +63,7 @@ with st.echo(code_location='below'):
                 figure, ax = plt.subplots()
                 ax.set(xlabel='City', ylabel='1-STAR Restaurants in the city')
                 try:
-                    plt.bar(cities_to_choose, df_1star.iloc[cities_to_choose, 'Location'])
+                    plt.bar(cities_to_choose, df_1star.loc[cities_to_choose, 'Location'])
                     st.pyplot(plt, clear_figure=True)
                 except IndexError:
                     st.write("This city has no restaurants with such award")
@@ -72,7 +72,7 @@ with st.echo(code_location='below'):
                 figure, ax = plt.subplots()
                 ax.set(xlabel='City', ylabel='2-STAR Restaurants in the city')
                 try:
-                    plt.bar(cities_to_choose, df_2star.iloc[cities_to_choose, 'Location'])
+                    plt.bar(cities_to_choose, df_2star.loc[cities_to_choose, 'Location'])
                     st.pyplot(plt, clear_figure=True)
                 except IndexError:
                     st.write("This city has no restaurants with such award")
@@ -81,7 +81,7 @@ with st.echo(code_location='below'):
                 figure, ax = plt.subplots()
                 ax.set(xlabel='City', ylabel='3-STAR Restaurants in the city')
                 try:
-                    plt.bar(cities_to_choose, df_3star.iloc[cities_to_choose, 'Location'])
+                    plt.bar(cities_to_choose, df_3star.loc[cities_to_choose, 'Location'])
                     st.pyplot(plt, clear_figure=True)
                 except IndexError:
                     st.write("This city has no restaurants with such award")
@@ -90,7 +90,7 @@ with st.echo(code_location='below'):
                     fig = plt.figure()
                     figure, ax = plt.subplots()
                     ax.set(xlabel='City', ylabel='Restaurants with Bib Gourmand Award in the city')
-                    plt.bar(cities_to_choose, df_baward.iloc[cities_to_choose, 'Location'])
+                    plt.bar(cities_to_choose, df_baward.loc[cities_to_choose, 'Location'])
                     st.pyplot(plt, clear_figure=True)
                 except IndexError:
                     st.write("This city has no restaurants with such award")
