@@ -1,17 +1,17 @@
-def main():
-    import streamlit as st
-    import pandas as pd
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    import requests
-    import sqlite3
-    import plotly.express as px
-    import geopandas as gpd
-    import json
-    from pandas.core.groupby.groupby import DataError
-    sns.set()
+import streamlit as st
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import requests
+import sqlite3
+import plotly.express as px
+import geopandas as gpd
+import json
+from pandas.core.groupby.groupby import DataError
+sns.set()
 
+def main():
     st.title("Проект по визуализации данных")
     st.write("В данном проекте предоставлена самая что ни на есть полная аналитика всех мировых Мишленовскиих ресторанов, есть всякие интересные графики и опять же много всего занимательного.")
     show1 = st.sidebar.checkbox("Показать Часть с изначальной обработкой данных + pandas")
