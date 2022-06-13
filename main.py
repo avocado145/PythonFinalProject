@@ -1,6 +1,4 @@
-with st.echo():
-
-    import streamlit as st
+import streamlit as st
     import pandas as pd
     import numpy as np
     import matplotlib.pyplot as plt
@@ -12,6 +10,8 @@ with st.echo():
     import json
     from pandas.core.groupby.groupby import DataError
     sns.set()
+
+with st.echo():
 
     def main():
         st.title("Проект по визуализации данных")
