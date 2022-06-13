@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import requests
 import sqlite3
+import plotly.express as px
+import geopandas as gpd
 import json
 from pandas.core.groupby.groupby import DataError
 sns.set()
@@ -12,6 +14,8 @@ sns.set()
 st.title("Проект по визуализации данных")
 show1 = st.sidebar.checkbox("Показать Часть с изначальной обработкой данных + pandas")
 st.title("Часть с изначальной обработкой данных + продвинутое использование pandas")
+df = pd.read_csv('michelin_my_maps.csv')
+data_reviews = pd.read_csv("TA_restaurants_curated.csv")
 if show1:
     """В этой части приведем статистику по мишленовски ресторанам в разных городах мира в зависимости от количества звезд и полученных наград"""
     st.markdown("""
@@ -34,8 +38,7 @@ if show1:
 
 
     columns = np.array(['All restaurants in the city', '1-STAR Restaurants in the city', '2-STAR Restaurants in the city',
-                        '3-STAR Restaurants in the city', 'Restaurants with Bib Gourmand Award in the city',
-                        'Distribution of restaurants'])
+                        '3-STAR Restaurants in the city', 'Restaurants with Bib Gourmand Award in the city'])
     table = st.radio("Choose the information you would like to see", columns)
     cities_to_choose = st.multiselect("Choose the town", city_restaurants)
     df1 = df['Location'].value_counts().to_frame()
@@ -45,6 +48,7 @@ if show1:
     df_baward = df[df['Award'] == 'B']['Location'].value_counts().to_frame()
     df2 = df.groupby('Location')['Award'].value_counts()
     # st.write(df2.head())
+    """Если показывает ошибку, то просто выберите какой-нибудь город и все будет супер!"""
     if (table == 'All restaurants in the city'):
         fig = plt.figure()
         figure, ax = plt.subplots()
@@ -79,16 +83,14 @@ if show1:
         except IndexError:
             st.write("This city has no restaurants with such award")
     elif (table == 'Restaurants with Bib Gourmand Award in the city'):
-        fig = plt.figure()
-        figure, ax = plt.subplots()
-        ax.set(xlabel='City', ylabel='Restaurants with Bib Gourmand Award in the city')
         try:
+            fig = plt.figure()
+            figure, ax = plt.subplots()
+            ax.set(xlabel='City', ylabel='Restaurants with Bib Gourmand Award in the city')
             plt.bar(cities_to_choose, df_baward.iloc[cities_to_choose, 'Location'])
             st.pyplot(plt, clear_figure=True)
         except IndexError:
             st.write("This city has no restaurants with such award")
-    #нужно здесь допилить способ  добавления трех bar charts и distribution одновременно + вывести no information если
-    #у нас нет
 
 
 st.title("Использование API и JSON")
@@ -148,7 +150,6 @@ show3 = st.sidebar.checkbox("Показать Часть с использова
 if show3:
     st.write("В этой части возьмем совершенно другую выборку, которая предоставляет отзывы о ресторанах с всего мира. Попробуем найти среди данных отзывов - отзывы на Мишленовские рестораны и отранжировать их - в этой части могут возникнуть проблемы с sql, к сожалению(")
 
-    data_reviews = pd.read_csv("TA_restaurants_curated.csv")
     conn = sqlite3.connect("review")
     c = conn.cursor()
     c.execute("""
@@ -207,5 +208,41 @@ st.title("Анализ данных с помощью Pandas, Numpy")
 show5 = st.sidebar.checkbox("Показать Часть с Pandas, Numpy")
 
 if show5:
-    avg_1 = df['MinPrice'].mean()
-    st.write(avg_1)
+    """Здесь будем активно пользоваться библиотеками pandas, numpy и будет много визуализации! Поэтому готовьтесь))"""
+    """Сперва посмотрим, в каких городах больше всего ресторанов с какой-либо почетной наградой и выведем топ-10"""
+    best_restaurants = df["Location"].value_counts()[:10]
+    fig, ax = plt.subplots()
+    chart = sns.barplot(x=best_restaurants, y=best_restaurants.index, ax=ax,
+                        palette='crest')
+    chart.bar_label(chart.containers[0], fontsize=8.5, color='black')
+    chart.set_title('The top-10 michelin star restaurants')
+    st.pyplot(fig)
+
+    """Теперь рассмотрим самые популярные кухни, за которые дают кулинарные награды"""
+    best_restaurants = df["Cuisine"].value_counts()[:10]
+    bb_rest = best_restaurants.reset_index()
+    # st.write(bb_rest)
+    fig = px.pie(bb_rest, values="Cuisine", names='index',
+                 title='Top 10 cuisines given a somewhat award',
+                 color='Cuisine')
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.update_layout(font=dict(size=14))
+    st.plotly_chart(fig)
+
+
+st.title("Использование geopandas")
+
+show6 = st.sidebar.checkbox("Показать Часть с geopandas")
+if show6:
+    """Смотрите в репозитории файл под названием ivan_ivanov.ipynb, там ооочень крутая аналитика и графики тоже нормесные))"""
+
+
+
+st.title("Использование вебскреппинга")
+show7 = st.sidebar.checkbox("Показать Часть с вебскреппингом")
+if show7:
+    """Смотрите в репозитории файл под названием web_scrapping.ipynb, там реализовано исследование с помощью web scrapping 
+    в целях узнать о лучших ресторанах Москвы по версии Мишленовской комиссии""
+    
+    
+ """Спасибо за внимание:) надеюсь, проект понравился"""
