@@ -6,6 +6,7 @@ import seaborn as sns
 import requests
 import sqlite3
 import json
+import plotly.express as px
 from pandas.core.groupby.groupby import DataError
 sns.set()
 
