@@ -1,15 +1,14 @@
 import streamlit as st
-    import pandas as pd
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    import requests
-    import sqlite3
-    import plotly.express as px
-    import geopandas as gpd
-    import json
-    from pandas.core.groupby.groupby import DataError
-    sns.set()
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import requests
+import sqlite3
+import json
+from pandas.core.groupby.groupby import DataError
+sns.set()
+
 
 with st.echo():
 
