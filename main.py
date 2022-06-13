@@ -10,7 +10,7 @@ from pandas.core.groupby.groupby import DataError
 sns.set()
 
 
-with st.echo():
+with st.echo(code_location='below'):
 
     def main():
         st.title("Проект по визуализации данных")
