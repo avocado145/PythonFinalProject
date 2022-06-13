@@ -247,5 +247,6 @@ def main():
         в целях узнать о лучших ресторанах Москвы по версии Мишленовской комиссии"""
 if __name__ == '__main__':
     main()
-    st.echo(code_location='above')
+with st.echo(code_location='above'):
+        st.write("This code will be executed above")
 
